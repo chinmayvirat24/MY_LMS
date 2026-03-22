@@ -24,7 +24,12 @@ export default function DashboardPage() {
               learning streak moving through a calm, premium dashboard.
             </p>
           </div>
-          <Button href="/courses">Browse More Courses</Button>
+          <div className="flex flex-wrap gap-3">
+            <Button href="/dashboard/resources" variant="secondary">
+              Open Resources
+            </Button>
+            <Button href="/courses">Browse More Courses</Button>
+          </div>
         </div>
       </section>
 

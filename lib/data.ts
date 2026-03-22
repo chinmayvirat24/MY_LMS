@@ -1074,3 +1074,59 @@ export function getRecentCourses() {
     .map((lessonId) => lessonToCourse.get(lessonId))
     .filter(Boolean) as Course[];
 }
+
+export function getDashboardResourceCourses() {
+  const librarySlugs = new Set([
+    ...userProfile.enrolledCourseSlugs,
+    ...userProfile.purchasedCourseSlugs,
+    ...getContinueLearningCourses().map((course) => course.slug),
+    ...getRecentCourses().map((course) => course.slug)
+  ]);
+  const recentLessonIds = new Set(userProfile.recentlyWatchedLessonIds);
+  const completedLessonIds = new Set(userProfile.completedLessonIds);
+
+  return Array.from(librarySlugs)
+    .map((slug) => getCourseBySlug(slug))
+    .filter((course): course is Course => Boolean(course) && hasCourseAccess(course))
+    .flatMap((course) => {
+      const lessons = getFlatLessons(course);
+      const recentLesson = lessons.find((lesson) => recentLessonIds.has(lesson.id));
+      const firstIncompleteLesson = lessons.find((lesson) => !completedLessonIds.has(lesson.id));
+      const focusLesson = recentLesson ?? firstIncompleteLesson ?? lessons[0];
+
+      if (!focusLesson) {
+        return [];
+      }
+
+      const previewLessons = lessons
+        .filter((lesson) => lesson.id !== focusLesson.id)
+        .slice(0, 2);
+
+      return [
+        {
+          course,
+          progress: getCourseProgress(course),
+          focusLesson,
+          previewLessons
+        }
+      ];
+    })
+    .sort((left, right) => {
+      const leftRecent = recentLessonIds.has(left.focusLesson.id) ? 1 : 0;
+      const rightRecent = recentLessonIds.has(right.focusLesson.id) ? 1 : 0;
+
+      if (leftRecent !== rightRecent) {
+        return rightRecent - leftRecent;
+      }
+
+      if (left.progress.percent !== right.progress.percent) {
+        return right.progress.percent - left.progress.percent;
+      }
+
+      return left.course.title.localeCompare(right.course.title);
+    });
+}
+
+export function getFeaturedDashboardLessons(limit = 6) {
+  return getDashboardResourceCourses().slice(0, limit);
+}
