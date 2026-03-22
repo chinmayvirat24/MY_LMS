@@ -47,6 +47,7 @@ export type Course = {
   sections: Section[];
   whatYouWillLearn: string[];
   tags: string[];
+  resources: CourseResource[];
 };
 
 export type PlatformFeature = {
@@ -65,6 +66,13 @@ export type DashboardMetric = {
   label: string;
   value: string;
   hint: string;
+};
+
+export type CourseResource = {
+  title: string;
+  type: "Docs" | "Guide" | "Practice" | "Video" | "Checklist";
+  href: string;
+  description: string;
 };
 
 export type PurchaseRecord = {

@@ -6,7 +6,9 @@ import { motion } from "framer-motion";
 import type { Course } from "@/lib/types";
 import { AIChatPanel } from "@/components/ai-chat-panel";
 import { Logo } from "@/components/logo";
+import { ResourceSection } from "@/components/resource-section";
 import { SidebarLessonItem } from "@/components/sidebar-lesson-item";
+import { BackButton } from "@/components/ui/back-button";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { VideoPlayer } from "@/components/video-player";
@@ -75,6 +77,15 @@ export function LearningWorkspace({
     lessonStates.length
   );
   const relatedLessons = lessonStates.slice(activeIndex + 1, activeIndex + 4);
+  const lessonResources = [
+    {
+      title: "Current lesson on YouTube",
+      type: "Video" as const,
+      href: activeLesson.youtubeUrl,
+      description: "Open the original source video in a new tab when you want timestamps or comments."
+    },
+    ...course.resources
+  ].slice(0, 4);
 
   function markCompleted() {
     if (!activeLesson || completedIds.includes(activeLesson.id)) {
@@ -86,8 +97,8 @@ export function LearningWorkspace({
 
   if (!accessible) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-white/80 bg-white p-8 shadow-soft">
+      <div className="min-h-screen bg-[#f5f8ff] px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-slate-900/8 bg-white p-8 shadow-soft">
           <Logo />
           <h1 className="mt-8 text-3xl font-semibold tracking-tight text-slate-950">
             This course is locked for your account.
@@ -112,8 +123,8 @@ export function LearningWorkspace({
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f9fc]">
-      <header className="border-b border-white/70 bg-white/85 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#f5f8ff]">
+      <header className="border-b border-slate-900/8 bg-white/88 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <Logo />
@@ -125,9 +136,7 @@ export function LearningWorkspace({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button href={`/courses/${course.slug}`} variant="ghost" size="sm">
-              Course Details
-            </Button>
+            <BackButton href={`/courses/${course.slug}`} label="Back to Course" />
             <Button href="/dashboard" variant="secondary" size="sm">
               Dashboard
             </Button>
@@ -212,7 +221,7 @@ export function LearningWorkspace({
         <main className="min-w-0 flex-1 space-y-6">
           <VideoPlayer title={activeLesson.title} embedUrl={activeLesson.embedUrl} />
 
-          <section className="rounded-[2rem] border border-white/80 bg-white p-6 shadow-card">
+          <section className="rounded-[2rem] border border-slate-900/8 bg-white p-6 shadow-card">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-3xl">
                 <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary-600">
@@ -225,7 +234,7 @@ export function LearningWorkspace({
                   {activeLesson.description}
                 </p>
               </div>
-              <div className="rounded-[1.75rem] bg-slate-50 p-4 text-sm text-slate-600">
+              <div className="rounded-[1.75rem] border border-primary-100 bg-[linear-gradient(180deg,#ffffff_0%,#f6f9ff_100%)] p-4 text-sm text-slate-600">
                 <p>
                   Lesson {activeIndex + 1} of {lessonStates.length}
                 </p>
@@ -264,7 +273,7 @@ export function LearningWorkspace({
           </section>
 
           <section className="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
-            <div className="rounded-[2rem] border border-white/80 bg-white p-6 shadow-card">
+            <div className="rounded-[2rem] border border-slate-900/8 bg-white p-6 shadow-card">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary-600">
                 Related lessons
               </p>
@@ -289,7 +298,7 @@ export function LearningWorkspace({
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/80 bg-white p-6 shadow-card">
+            <div className="rounded-[2rem] border border-slate-900/8 bg-white p-6 shadow-card">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary-600">
                 Lesson flow
               </p>
@@ -309,6 +318,13 @@ export function LearningWorkspace({
               </div>
             </div>
           </section>
+
+          <ResourceSection
+            eyebrow="Resources"
+            title="Lesson resources"
+            description="Open the current lesson source, official references, and follow-along practice material without leaving the learning flow."
+            resources={lessonResources}
+          />
         </main>
       </div>
 

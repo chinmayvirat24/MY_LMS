@@ -1,5 +1,6 @@
 import type {
   Course,
+  CourseResource,
   DashboardMetric,
   PlatformFeature,
   PurchaseRecord,
@@ -290,13 +291,136 @@ const trackTemplates = {
 } as const;
 
 const trackAccents = {
-  python: { from: "#dbeafe", to: "#6366f1", glow: "rgba(99, 102, 241, 0.18)" },
-  java: { from: "#fef3c7", to: "#f97316", glow: "rgba(249, 115, 22, 0.18)" },
-  sql: { from: "#cffafe", to: "#0ea5e9", glow: "rgba(14, 165, 233, 0.18)" },
-  web: { from: "#dcfce7", to: "#16a34a", glow: "rgba(22, 163, 74, 0.18)" },
-  react: { from: "#e0f2fe", to: "#06b6d4", glow: "rgba(6, 182, 212, 0.18)" },
-  node: { from: "#ede9fe", to: "#7c3aed", glow: "rgba(124, 58, 237, 0.18)" }
+  python: { from: "#dbeafe", to: "#2563eb", glow: "rgba(37, 99, 235, 0.18)" },
+  java: { from: "#bfdbfe", to: "#1d4ed8", glow: "rgba(29, 78, 216, 0.18)" },
+  sql: { from: "#dbeafe", to: "#0f172a", glow: "rgba(15, 23, 42, 0.18)" },
+  web: { from: "#eff6ff", to: "#1e3a8a", glow: "rgba(30, 58, 138, 0.18)" },
+  react: { from: "#dbeafe", to: "#3b82f6", glow: "rgba(59, 130, 246, 0.18)" },
+  node: { from: "#e0e7ff", to: "#111827", glow: "rgba(17, 24, 39, 0.18)" }
 } as const;
+
+const trackResources: Record<keyof typeof trackTemplates, CourseResource[]> = {
+  python: [
+    {
+      title: "Official Python Docs",
+      type: "Docs",
+      href: "https://docs.python.org/3/",
+      description: "Reference the standard library, syntax details, and core language guides."
+    },
+    {
+      title: "Python Tutor",
+      type: "Practice",
+      href: "https://pythontutor.com/",
+      description: "Visualize how code runs step by step while you practice lesson exercises."
+    },
+    {
+      title: "Python Project Checklist",
+      type: "Checklist",
+      href: "https://roadmap.sh/python",
+      description: "Use this roadmap to decide what to learn after the current course."
+    }
+  ],
+  java: [
+    {
+      title: "Oracle Java Docs",
+      type: "Docs",
+      href: "https://docs.oracle.com/en/java/",
+      description: "Core Java documentation for language, APIs, and standard library usage."
+    },
+    {
+      title: "Baeldung Java Guide",
+      type: "Guide",
+      href: "https://www.baeldung.com/",
+      description: "Readable deep dives for collections, streams, OOP patterns, and backend practice."
+    },
+    {
+      title: "Java Roadmap",
+      type: "Checklist",
+      href: "https://roadmap.sh/java",
+      description: "Map your next topics after fundamentals, APIs, and production patterns."
+    }
+  ],
+  sql: [
+    {
+      title: "SQLBolt Practice",
+      type: "Practice",
+      href: "https://sqlbolt.com/",
+      description: "Sharpen query writing with fast, interactive exercises that fit lesson topics."
+    },
+    {
+      title: "PostgreSQL Docs",
+      type: "Docs",
+      href: "https://www.postgresql.org/docs/",
+      description: "Reference joins, indexes, data types, and advanced query patterns."
+    },
+    {
+      title: "Window Functions Guide",
+      type: "Guide",
+      href: "https://mode.com/sql-tutorial/sql-window-functions",
+      description: "A practical companion for analytics lessons and reporting workflows."
+    }
+  ],
+  web: [
+    {
+      title: "MDN Web Docs",
+      type: "Docs",
+      href: "https://developer.mozilla.org/",
+      description: "The best single reference for HTML, CSS, JavaScript, and browser APIs."
+    },
+    {
+      title: "JavaScript.info",
+      type: "Guide",
+      href: "https://javascript.info/",
+      description: "A clean explanation source for JavaScript concepts used in the lessons."
+    },
+    {
+      title: "Frontend Project Checklist",
+      type: "Checklist",
+      href: "https://roadmap.sh/frontend",
+      description: "Use this roadmap to turn course learning into project-ready frontend skills."
+    }
+  ],
+  react: [
+    {
+      title: "React Learn",
+      type: "Docs",
+      href: "https://react.dev/learn",
+      description: "Official React learning materials to reinforce component and state concepts."
+    },
+    {
+      title: "React Reference",
+      type: "Guide",
+      href: "https://react.dev/reference/react",
+      description: "Look up APIs, hooks, and modern patterns while building lesson exercises."
+    },
+    {
+      title: "React Practice Challenges",
+      type: "Practice",
+      href: "https://www.frontendmentor.io/",
+      description: "Apply what you learn through UI-focused implementation challenges."
+    }
+  ],
+  node: [
+    {
+      title: "Node.js Docs",
+      type: "Docs",
+      href: "https://nodejs.org/docs/latest/api/",
+      description: "Official runtime docs for modules, filesystem APIs, streams, and processes."
+    },
+    {
+      title: "Express Starter Guide",
+      type: "Guide",
+      href: "https://expressjs.com/en/starter/installing.html",
+      description: "A practical companion when lessons move into routes, middleware, and services."
+    },
+    {
+      title: "Backend Roadmap",
+      type: "Checklist",
+      href: "https://roadmap.sh/backend",
+      description: "See how Node lessons connect to larger backend architecture and deployment topics."
+    }
+  ]
+};
 
 const courseBlueprints = [
   {
@@ -652,7 +776,8 @@ export const courses: Course[] = courseBlueprints.map((blueprint, index) => {
     accent,
     sections,
     whatYouWillLearn: [...trackTemplates[blueprint.track].learn],
-    tags: [...trackTemplates[blueprint.track].tags]
+    tags: [...trackTemplates[blueprint.track].tags],
+    resources: trackResources[blueprint.track].map((resource) => ({ ...resource }))
   };
 });
 

@@ -20,13 +20,13 @@ type ActionButtonProps = SharedProps &
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border border-primary-600 bg-primary-600 text-white shadow-card hover:bg-primary-700",
+    "border border-slate-950 bg-slate-950 text-white shadow-card hover:border-primary-600 hover:bg-primary-600",
   secondary:
-    "border border-white/60 bg-white/80 text-slate-900 shadow-card hover:border-primary-200 hover:text-primary-700",
+    "border border-slate-200 bg-white text-slate-950 shadow-card hover:border-primary-400 hover:text-primary-700",
   ghost:
-    "border border-transparent bg-transparent text-slate-700 hover:bg-slate-100/80 hover:text-slate-950",
+    "border border-transparent bg-transparent text-slate-700 hover:bg-primary-50 hover:text-primary-700",
   outline:
-    "border border-slate-200 bg-white text-slate-800 hover:border-primary-300 hover:text-primary-700"
+    "border border-primary-200 bg-primary-50/70 text-primary-700 hover:border-primary-300 hover:bg-primary-100"
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

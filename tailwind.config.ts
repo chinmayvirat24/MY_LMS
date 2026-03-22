@@ -9,31 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        surface: "#f8fafc",
-        ink: "#0f172a",
+        surface: "#f4f8ff",
+        ink: "#020617",
         primary: {
-          50: "#eef2ff",
-          100: "#e0e7ff",
-          200: "#c7d2fe",
-          300: "#a5b4fc",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
-          800: "#3730a3"
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
+          800: "#1e40af"
         }
       },
       fontFamily: {
         sans: ["Inter", "Segoe UI", "sans-serif"]
       },
       boxShadow: {
-        soft: "0 18px 45px rgba(15, 23, 42, 0.08)",
-        card: "0 12px 28px rgba(15, 23, 42, 0.08)",
-        halo: "0 0 0 6px rgba(99, 102, 241, 0.12)"
+        soft: "0 24px 54px rgba(2, 6, 23, 0.1)",
+        card: "0 16px 34px rgba(15, 23, 42, 0.09)",
+        halo: "0 0 0 6px rgba(37, 99, 235, 0.12)"
       },
       backgroundImage: {
         "hero-grid":
-          "linear-gradient(rgba(99,102,241,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px)"
+          "linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)"
       }
     }
   },

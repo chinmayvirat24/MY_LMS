@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 import type { Course } from "@/lib/types";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/back-button";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { ResourceSection } from "@/components/resource-section";
 import { getCourseProgress, getCourseLessonsWithProgress, hasCourseAccess, userProfile } from "@/lib/data";
 import {
   formatCompactNumber,
@@ -39,14 +41,19 @@ export function CourseDetail({ course }: CourseDetailProps) {
 
   return (
     <div className="space-y-8">
-      <section className="overflow-hidden rounded-[2.5rem] border border-white/80 bg-white shadow-soft">
+      <div className="flex items-center justify-between">
+        <BackButton href="/courses" label="Back to Courses" />
+      </div>
+
+      <section className="overflow-hidden rounded-[2.5rem] border border-slate-900/8 bg-white shadow-soft">
         <div
           className="relative overflow-hidden px-6 py-8 sm:px-8 lg:px-10 lg:py-10"
           style={{
             background: `linear-gradient(135deg, ${course.accent.from}, ${course.accent.to})`
           }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.4),transparent_35%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.32),transparent_35%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(2,6,23,0.08),transparent_46%)]" />
           <div className="relative grid gap-8 lg:grid-cols-[1.2fr,0.8fr]">
             <div className="space-y-6">
               <div className="flex flex-wrap gap-2">
@@ -99,7 +106,7 @@ export function CourseDetail({ course }: CourseDetailProps) {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-card backdrop-blur-sm">
+            <div className="rounded-[2rem] border border-white/55 bg-white/78 p-6 shadow-card backdrop-blur-sm">
               <ProgressBar value={progress.percent} label="Course completion" />
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl bg-white/80 p-4">
@@ -134,7 +141,7 @@ export function CourseDetail({ course }: CourseDetailProps) {
       </section>
 
       <section className="grid gap-8 lg:grid-cols-[0.9fr,1.1fr]">
-        <div className="space-y-6 rounded-[2.5rem] border border-white/80 bg-white p-6 shadow-card">
+        <div className="space-y-6 rounded-[2.5rem] border border-slate-900/8 bg-white p-6 shadow-card">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary-600">
               About this course
@@ -154,7 +161,7 @@ export function CourseDetail({ course }: CourseDetailProps) {
           </div>
         </div>
 
-        <div className="space-y-4 rounded-[2.5rem] border border-white/80 bg-white p-6 shadow-card">
+        <div className="space-y-4 rounded-[2.5rem] border border-slate-900/8 bg-white p-6 shadow-card">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary-600">
               Curriculum
@@ -213,6 +220,13 @@ export function CourseDetail({ course }: CourseDetailProps) {
           })}
         </div>
       </section>
+
+      <ResourceSection
+        eyebrow="Resources"
+        title="Study guides and references"
+        description="Keep the most useful companion material nearby while you move through the course. These links reinforce the lessons without sending learners into a noisy rabbit hole."
+        resources={course.resources}
+      />
 
       <Modal
         open={modalOpen}
