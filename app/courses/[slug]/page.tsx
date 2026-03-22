@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ProtectedRoute } from "@/components/auth/protected-route";
 import { CourseDetail } from "@/components/course-detail";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
@@ -18,12 +19,14 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
   }
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <CourseDetail course={course} />
-      </main>
-      <Footer />
-    </div>
+    <ProtectedRoute>
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <CourseDetail course={course} />
+        </main>
+        <Footer />
+      </div>
+    </ProtectedRoute>
   );
 }

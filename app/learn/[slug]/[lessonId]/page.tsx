@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ProtectedRoute } from "@/components/auth/protected-route";
 import { LearningWorkspace } from "@/components/learning-workspace";
 import { getCourseBySlug } from "@/lib/data";
 
@@ -16,5 +17,9 @@ export default function LearningPage({ params }: LearningPageProps) {
     notFound();
   }
 
-  return <LearningWorkspace course={course} lessonId={params.lessonId} />;
+  return (
+    <ProtectedRoute>
+      <LearningWorkspace course={course} lessonId={params.lessonId} />
+    </ProtectedRoute>
+  );
 }

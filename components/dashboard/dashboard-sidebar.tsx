@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/components/providers/auth-provider";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,8 @@ const items = [
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAuth();
 
   return (
     <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] rounded-[2rem] border border-white/80 bg-white p-5 shadow-card lg:block">
@@ -29,6 +32,22 @@ export function DashboardSidebar() {
         {items.map((item) => {
           const active =
             pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+
+          if (item.label === "Logout") {
+            return (
+              <button
+                key={item.href}
+                type="button"
+                onClick={() => {
+                  logout();
+                  router.push("/login");
+                }}
+                className="flex w-full items-center rounded-2xl px-4 py-3 text-sm text-slate-500 transition-all hover:bg-slate-50 hover:text-slate-900"
+              >
+                {item.label}
+              </button>
+            );
+          }
 
           return (
             <Link

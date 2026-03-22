@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { useAuth } from "@/components/providers/auth-provider";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ const links = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { session, logout, status } = useAuth();
 
   return (
     <motion.header
@@ -47,12 +49,28 @@ export function Navbar() {
           })}
         </nav>
         <div className="flex items-center gap-3">
-          <Button href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex">
-            Log in
-          </Button>
-          <Button href="/register" size="sm">
-            Get Started
-          </Button>
+          {status === "authenticated" && session ? (
+            <>
+              <span className="hidden rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm sm:inline-flex">
+                {session.name}
+              </span>
+              <Button href="/dashboard" variant="ghost" size="sm">
+                Dashboard
+              </Button>
+              <Button type="button" size="sm" onClick={logout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex">
+                Log in
+              </Button>
+              <Button href="/register" size="sm">
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </motion.header>

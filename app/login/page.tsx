@@ -1,46 +1,45 @@
 import Link from "next/link";
+import { GuestRoute } from "@/components/auth/guest-route";
+import { LoginForm } from "@/components/auth/login-form";
 import { AuthShell } from "@/components/auth-shell";
-import { Button } from "@/components/ui/button";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    next?: string;
+    email?: string;
+    verified?: string;
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+  const next = searchParams?.next;
+  const email = searchParams?.email;
+  const verified = searchParams?.verified === "1";
+
   return (
-    <AuthShell
-      eyebrow="Welcome back"
-      title="Log in to Sikho"
-      subtitle="Continue your current courses, resume your videos, and pick up exactly where you left off."
-      footer={
-        <p>
-          New to Sikho?{" "}
-          <Link href="/register" className="font-medium text-primary-700">
-            Create an account
-          </Link>
-        </p>
-      }
-    >
-      <form className="space-y-5">
-        <label className="block space-y-2">
-          <span className="text-sm font-medium text-slate-700">Email address</span>
-          <input
-            type="email"
-            placeholder="you@example.com"
-            className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 outline-none transition-all focus:border-primary-300 focus:bg-white focus:shadow-halo"
-          />
-        </label>
-
-        <label className="block space-y-2">
-          <span className="text-sm font-medium text-slate-700">Password</span>
-          <input
-            type="password"
-            placeholder="********"
-            className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-900 outline-none transition-all focus:border-primary-300 focus:bg-white focus:shadow-halo"
-          />
-        </label>
-
-        <Button className="w-full">Log In</Button>
-        <Button variant="secondary" className="w-full">
-          Continue with Google
-        </Button>
-      </form>
-    </AuthShell>
+    <GuestRoute>
+      <AuthShell
+        eyebrow="Welcome back"
+        title="Log in to Sikho"
+        subtitle="Register, verify your account, and then resume your learning flow with protected access across the app."
+        footer={
+          <div className="space-y-2">
+            {verified ? (
+              <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-700">
+                Your account is verified. You can log in now.
+              </p>
+            ) : null}
+            <p>
+              New to Sikho?{" "}
+              <Link href="/register" className="font-medium text-primary-700">
+                Create an account
+              </Link>
+            </p>
+          </div>
+        }
+      >
+        <LoginForm next={next} initialEmail={email} />
+      </AuthShell>
+    </GuestRoute>
   );
 }
